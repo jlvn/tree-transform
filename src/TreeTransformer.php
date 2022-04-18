@@ -6,16 +6,16 @@ use Closure;
 
 class TreeTransformer
 {
-    private readonly TreeTransformableReadOnlyMap $defaultTransformableMap;
+    private readonly TreeTransformableTagReadOnlyMap $defaultTransformableMap;
     private readonly TreeTransformableInterface $defaultTransformable;
 
     /**
      * @param TreeTransformableInterface $defaultTransformable
-     * @param TreeTransformableReadOnlyMap $defaultTransformableMap
+     * @param TreeTransformableTagReadOnlyMap $defaultTransformableMap
      */
     public function __construct(
         TreeTransformableInterface $defaultTransformable = new PlaceboTreeTransformable(),
-        TreeTransformableReadOnlyMap $defaultTransformableMap = new TreeTransformableReadOnlyMap([])
+        TreeTransformableTagReadOnlyMap $defaultTransformableMap = new TreeTransformableTagReadOnlyMap([])
     )
     {
         $this->defaultTransformable = $defaultTransformable;
@@ -26,19 +26,19 @@ class TreeTransformer
      * @template T
      *
      * @param T $trunk
-     * @param TreeTransformableReadOnlyMap $transformableMap
+     * @param TreeTransformableTagReadOnlyMap $transformableMap
      *
      * @return mixed
      *
      * @throws NotFoundExceptionInterface
      */
-    public function tryTransformWith(mixed $trunk, TreeTransformableReadOnlyMap $transformableMap): mixed
+    public function tryTransformWith(mixed $trunk, TreeTransformableTagReadOnlyMap $transformableMap): mixed
     {
         return $this->transform(
             $trunk,
             $transformableMap,
-            fn(TreeTransformableReadOnlyMap $transformableMap, string $trunkType): TreeTransformableInterface =>
-            $transformableMap->tryGet($trunkType)
+            fn(TreeTransformableTagReadOnlyMap $transformableMap, string $trunkTag): TreeTransformableInterface =>
+            $transformableMap->tryGet($trunkTag)
         );
     }
 
@@ -56,8 +56,8 @@ class TreeTransformer
         return $this->transform(
             $trunk,
             $this->defaultTransformableMap,
-            fn(TreeTransformableReadOnlyMap $transformableMap, string $trunkType): TreeTransformableInterface =>
-                $transformableMap->tryGet($trunkType)
+            fn(TreeTransformableTagReadOnlyMap $transformableMap, string $trunkTag): TreeTransformableInterface =>
+                $transformableMap->tryGet($trunkTag)
         );
     }
 
@@ -74,8 +74,8 @@ class TreeTransformer
         return $this->transform(
             $trunk,
             $this->defaultTransformableMap,
-            fn(TreeTransformableReadOnlyMap $transformableMap, string $trunkType): TreeTransformableInterface =>
-                $transformableMap->getOrDefault($trunkType, $this->defaultTransformable)
+            fn(TreeTransformableTagReadOnlyMap $transformableMap, string $trunkTag): TreeTransformableInterface =>
+                $transformableMap->getOrDefault($trunkTag, $this->defaultTransformable)
         );
     }
 
@@ -83,40 +83,40 @@ class TreeTransformer
      * @template T
      *
      * @param T $trunk
-     * @param TreeTransformableReadOnlyMap $transformableMap
+     * @param TreeTransformableTagReadOnlyMap $transformableMap
      * @return mixed
      */
     public function transformOrDefaultWith(
         mixed $trunk,
-        TreeTransformableReadOnlyMap $transformableMap
+        TreeTransformableTagReadOnlyMap $transformableMap
     ): mixed
     {
         return $this->transform(
             $trunk,
             $transformableMap,
-            fn(TreeTransformableReadOnlyMap $transformableMap, string $trunkType): TreeTransformableInterface =>
-                $transformableMap->getOrDefault($trunkType, $this->defaultTransformable)
+            fn(TreeTransformableTagReadOnlyMap $transformableMap, string $trunkTag): TreeTransformableInterface =>
+                $transformableMap->getOrDefault($trunkTag, $this->defaultTransformable)
          );
     }
 
     /**
      * @param mixed $trunk
-     * @param TreeTransformableReadOnlyMap $transformableMap
+     * @param TreeTransformableTagReadOnlyMap $transformableMap
      * @param Closure $getTransformable
      * @return mixed
      */
-    private function transform(mixed $trunk, TreeTransformableReadOnlyMap $transformableMap, Closure $getTransformable): mixed
+    private function transform(mixed $trunk, TreeTransformableTagReadOnlyMap $transformableMap, Closure $getTransformable): mixed
     {
-        $trunkType = $this->getType($trunk);
-        $trunkTransformable = $getTransformable($transformableMap, $trunkType);
+        $trunkTag = $this->getTag($trunk);
+        $trunkTransformable = $getTransformable($transformableMap, $trunkTag);
         $transformedMap = new Map;
 
         $branches = $trunkTransformable->getBranches($trunk);
 
         foreach ($branches as $branch) {
-            $branchType = $this->getType($branch);
-            $transformedMap->set($branchType, [
-                    ...$transformedMap->getOrDefault($branchType, []),
+            $branchTag = $this->getTag($branch);
+            $transformedMap->set($branchTag, [
+                    ...$transformedMap->getOrDefault($branchTag, []),
                     $this->transform($branch, $transformableMap, $getTransformable)
                 ]
             );
@@ -130,11 +130,11 @@ class TreeTransformer
      * @param mixed $value
      * @return string
      */
-    private function getType(mixed $value): string
+    private function getTag(mixed $value): string
     {
-        $type = gettype($value);
-        if ($type !== 'object') {
-            return $type;
+        $tag = gettype($value);
+        if ($tag !== 'object') {
+            return $tag;
         }
         return $value::class;
     }

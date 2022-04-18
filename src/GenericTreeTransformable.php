@@ -6,18 +6,18 @@ use Closure;
 
 class GenericTreeTransformable implements TreeTransformableInterface
 {
-    private string $type;
+    private string $tag;
     private Closure $getBranches;
     private Closure $transform;
 
     /**
-     * @param string $type
+     * @param string $tag
      * @param Closure(mixed): array $getBranches
      * @param Closure(mixed, ReadOnlyMapInterface): mixed $transform
      */
-    public function __construct(string $type, Closure $getBranches, Closure $transform)
+    public function __construct(string $tag, Closure $getBranches, Closure $transform)
     {
-        $this->type = $type;
+        $this->tag = $tag;
         $this->getBranches = $getBranches;
         $this->transform = $transform;
     }
@@ -25,9 +25,9 @@ class GenericTreeTransformable implements TreeTransformableInterface
     /**
      * @inheritDoc
      */
-    public function getType(): string
+    public function getTag(): string
     {
-        return $this->type;
+        return $this->tag;
     }
 
     /**

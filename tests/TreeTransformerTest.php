@@ -5,7 +5,7 @@ use Jlvn\TreeTransform\ReadOnlyMapInterface;
 use Classes\Dog;
 use Jlvn\TreeTransform\NotFoundException;
 use Jlvn\TreeTransform\TreeTransformableInterface;
-use Jlvn\TreeTransform\TreeTransformableReadOnlyMap;
+use Jlvn\TreeTransform\TreeTransformableTagReadOnlyMap;
 use Jlvn\TreeTransform\TreeTransformer;
 use PHPUnit\Framework\TestCase;
 
@@ -80,7 +80,7 @@ class TreeTransformerTest extends TestCase
      */
     public function it_will_transform_a_object_with_default_transformable_map(): void
     {
-        $transformableMap = new TreeTransformableReadOnlyMap([
+        $transformableMap = new TreeTransformableTagReadOnlyMap([
             $this->reflectionClassTransformable,
             $this->reflectionMethodTransformable,
             $this->reflectionParameterTransformable,
@@ -100,7 +100,7 @@ class TreeTransformerTest extends TestCase
      */
     public function it_will_transform_a_object_with_provided_transformable_map(): void
     {
-        $transformableMap = new TreeTransformableReadOnlyMap([
+        $transformableMap = new TreeTransformableTagReadOnlyMap([
             $this->reflectionClassTransformable,
             $this->reflectionMethodTransformable,
             $this->reflectionParameterTransformable,
@@ -136,7 +136,7 @@ class TreeTransformerTest extends TestCase
 
         $reflected = new ReflectionClass(Dog::class);
 
-        $transformableMap = new TreeTransformableReadOnlyMap([
+        $transformableMap = new TreeTransformableTagReadOnlyMap([
             $this->reflectionClassTransformable,
             $this->reflectionMethodTransformable
         ]);

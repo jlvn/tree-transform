@@ -10,7 +10,7 @@ namespace Jlvn\TreeTransform;
 interface TreeTransformableInterface {
 
     /**
-     * Get the type of the transformable.
+     * Get the tag of the transformable.
      * For primitives, it should be the result of the gettype() function.
      * For objects, it should be the fully qualified name of the class.
      * E.G. the result of object::class.
@@ -21,7 +21,7 @@ interface TreeTransformableInterface {
      *
      * @return string
      */
-    public function getType(): string;
+    public function getTag(): string;
 
     /**
      * Get the next level of branches of this trunk.

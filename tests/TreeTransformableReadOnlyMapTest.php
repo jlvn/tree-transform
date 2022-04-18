@@ -4,12 +4,12 @@ use Classes\Dog;
 use Jlvn\TreeTransform\GenericTreeTransformable;
 use Jlvn\TreeTransform\Map;
 use Jlvn\TreeTransform\NotFoundException;
-use Jlvn\TreeTransform\TreeTransformableReadOnlyMap;
+use Jlvn\TreeTransform\TreeTransformableTagReadOnlyMap;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
- * @covers \Jlvn\TreeTransform\TreeTransformableReadOnlyMap
+ * @covers \Jlvn\TreeTransform\TreeTransformableTagReadOnlyMap
  */
 class TreeTransformableReadOnlyMapTest extends TestCase
 {
@@ -19,7 +19,7 @@ class TreeTransformableReadOnlyMapTest extends TestCase
     public function it_converts_a_tree_transformable_array_to_map(): void {
         $transformable = new GenericTreeTransformable(Dog::class, fn() => [], fn() => []);
 
-        $map = new TreeTransformableReadOnlyMap([
+        $map = new TreeTransformableTagReadOnlyMap([
             $transformable
         ]);
 
@@ -33,7 +33,7 @@ class TreeTransformableReadOnlyMapTest extends TestCase
         $first = new GenericTreeTransformable(Dog::class, fn() => [], fn() => 'first');
         $last = new GenericTreeTransformable(Dog::class, fn() => [], fn() => 'last');
 
-        $map = new TreeTransformableReadOnlyMap([
+        $map = new TreeTransformableTagReadOnlyMap([
             $first,
             $last
         ]);
@@ -47,7 +47,7 @@ class TreeTransformableReadOnlyMapTest extends TestCase
     public function it_can_get_a_existing_transformable_from_the_map(): void {
         $transformable = new GenericTreeTransformable(Dog::class, fn() => [], fn() => []);
 
-        $map = new TreeTransformableReadOnlyMap([
+        $map = new TreeTransformableTagReadOnlyMap([
             $transformable
         ]);
 
@@ -61,7 +61,7 @@ class TreeTransformableReadOnlyMapTest extends TestCase
     public function it_throws_a_not_found_exception_when_a_key_is_not_found(): void {
         $this->expectException(NotFoundException::class);
 
-        $map = new TreeTransformableReadOnlyMap([]);
+        $map = new TreeTransformableTagReadOnlyMap([]);
 
         $map->tryGet(Dog::class);
     }
@@ -70,7 +70,7 @@ class TreeTransformableReadOnlyMapTest extends TestCase
     public function it_can_get_a_default_value_if_a_key_is_not_found(): void {
         $this->expectException(TypeError::class);
         $default = new GenericTreeTransformable('test', fn() => [], fn() => []);
-        $map = new TreeTransformableReadOnlyMap([]);
+        $map = new TreeTransformableTagReadOnlyMap([]);
 
         $this->assertEquals('default', $map->getOrDefault(Dog::class, 'default'));
         $this->assertEquals($default, $map->getOrDefault(Dog::class, $default));

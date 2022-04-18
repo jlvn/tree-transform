@@ -11,7 +11,7 @@ class PlaceboTreeTransformable implements TreeTransformableInterface
     /**
      * @inheritDoc
      */
-    public function getType(): string
+    public function getTag(): string
     {
         return 'mixed';
     }

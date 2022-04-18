@@ -32,7 +32,7 @@ class GenericTreeTransformableTest extends TestCase
 
     /** @test */
     public function it_returns_provided_type_on_get_type(): void {
-        $this->assertEquals(Dog::class, $this->transformable->getType());
+        $this->assertEquals(Dog::class, $this->transformable->getTag());
     }
 
     /** @test */

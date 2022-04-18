@@ -26,7 +26,7 @@ class PlaceboTreeTransformableTest extends TestCase
 
     /** @test */
     public function it_returns_mixed_on_get_type(): void {
-        $this->assertEquals('mixed', $this->transformable->getType());
+        $this->assertEquals('mixed', $this->transformable->getTag());
     }
 
     /** @test */

@@ -2,7 +2,7 @@
 
 namespace Jlvn\TreeTransform;
 
-class TreeTransformableReadOnlyMap implements ReadOnlyMapInterface
+class TreeTransformableTagReadOnlyMap implements ReadOnlyMapInterface
 {
     /**
      * @var array<string, TreeTransformableInterface>
@@ -14,7 +14,7 @@ class TreeTransformableReadOnlyMap implements ReadOnlyMapInterface
      */
     public function __construct(array $transformables)
     {
-        $this->transformables = $this->mapTransformablesToTypes($transformables);
+        $this->transformables = $this->mapTransformablesToTags($transformables);
     }
 
 
@@ -36,7 +36,7 @@ class TreeTransformableReadOnlyMap implements ReadOnlyMapInterface
     {
         try {
             return $this->tryGet($key);
-        } catch (NotFoundException) {
+        } catch (NotFoundExceptionInterface) {
             return $default;
         }
     }
@@ -45,12 +45,12 @@ class TreeTransformableReadOnlyMap implements ReadOnlyMapInterface
      * @param TreeTransformableInterface[] $transformables
      * @return array<string, TreeTransformableInterface>
      */
-    private function mapTransformablesToTypes(array $transformables): array
+    private function mapTransformablesToTags(array $transformables): array
     {
         $map = [];
 
         foreach ($transformables as $transformable) {
-            $map[$transformable->getType()] = $transformable;
+            $map[$transformable->getTag()] = $transformable;
         }
 
         return $map;
