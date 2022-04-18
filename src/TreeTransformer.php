@@ -30,7 +30,7 @@ class TreeTransformer
      *
      * @return mixed
      *
-     * @throws NotFoundException
+     * @throws NotFoundExceptionInterface
      */
     public function tryTransformWith(mixed $trunk, TreeTransformableReadOnlyMap $transformableMap): mixed
     {
@@ -49,7 +49,7 @@ class TreeTransformer
      *
      * @return mixed
      *
-     * @throws NotFoundException
+     * @throws NotFoundExceptionInterface
      */
     public function tryTransform(mixed $trunk): mixed
     {
