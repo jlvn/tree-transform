@@ -110,7 +110,7 @@ class TreeTransformerTest extends TestCase
 
         $reflected = new ReflectionClass(Dog::class);
 
-        $actual = $treeTransformer->tryTransformWith($reflected, $transformableMap);
+        $actual = $treeTransformer->tryTransform($reflected, $transformableMap);
 
         $this->assertEquals($this->expectedTransformationResult, $actual);
     }
@@ -141,7 +141,7 @@ class TreeTransformerTest extends TestCase
             $this->reflectionMethodTransformable
         ]);
 
-        $actual = $treeTransformer->transformOrDefaultWith($reflected, $transformableMap);
+        $actual = $treeTransformer->transformOrDefault($reflected, $transformableMap);
 
         $expected =  [
             'name' => 'Classes\Dog',

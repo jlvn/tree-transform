@@ -10,8 +10,14 @@ class TreeTransformer
     private readonly TreeTransformableInterface $defaultTransformable;
 
     /**
-     * @param TreeTransformableInterface $defaultTransformable
-     * @param TreeTransformableTagReadOnlyMap $defaultTransformableMap
+     * @param TreeTransformableInterface $defaultTransformable The default transformable to transform entities with.
+     *        if null is passed the PlaceboTreeTransformable will be used.
+     *        This transformable does not transform the entity.
+     * @param TreeTransformableTagReadOnlyMap $defaultTransformableMap The default transformable map to transform the
+     *        the entities in the tree with. If null is passed an empty TreeTransformableTagReadOnlyMap will be used.
+     *
+     * @see PlaceboTreeTransformable
+     * @see TreeTransformableTagReadOnlyMap
      */
     public function __construct(
         TreeTransformableInterface $defaultTransformable = new PlaceboTreeTransformable(),
@@ -23,80 +29,54 @@ class TreeTransformer
     }
 
     /**
+     * Transform an entity. If an entity tag can't be found in the transformable map an exception will be raised.
+     *
      * @template T
      *
-     * @param T $trunk
-     * @param TreeTransformableTagReadOnlyMap $transformableMap
+     * @param T $trunk The entity you wish to transform.
+     * @param TreeTransformableTagReadOnlyMap|null $transformableMap the transformable map you want to use to transform
+     *        this tree entity and its branches. If null is passed the default transformable map will be used.
      *
      * @return mixed
      *
-     * @throws NotFoundExceptionInterface
+     * @throws NotFoundExceptionInterface When the transformable tag could not be found in the transformable map.
      */
-    public function tryTransformWith(mixed $trunk, TreeTransformableTagReadOnlyMap $transformableMap): mixed
+    public function tryTransform(mixed $trunk, TreeTransformableTagReadOnlyMap $transformableMap = null): mixed
     {
         return $this->transform(
             $trunk,
-            $transformableMap,
+            $transformableMap ?? $this->defaultTransformableMap,
             fn(TreeTransformableTagReadOnlyMap $transformableMap, string $trunkTag): TreeTransformableInterface =>
             $transformableMap->tryGet($trunkTag)
         );
     }
 
     /**
+     * Transform an entity. If an entity tag can't be found in the transformable map
+     * the default or provided transformable will be used.
+     *
      * @template T
      *
-     * @param T $trunk
+     * @param T $trunk The entity you wish to transform.
+     * @param TreeTransformableTagReadOnlyMap|null $transformableMap the transformable map you want to use to transform
+     *        this tree entity and its branches. If null is passed the default transformable map will be used.
+     * @param TreeTransformableInterface|null $transformable the default transformable you want to use to transform
+     *        this tree entity and its branches. If null is passed the default transformable will be used.
      *
      * @return mixed
-     *
-     * @throws NotFoundExceptionInterface
      */
-    public function tryTransform(mixed $trunk): mixed
-    {
-        return $this->transform(
-            $trunk,
-            $this->defaultTransformableMap,
-            fn(TreeTransformableTagReadOnlyMap $transformableMap, string $trunkTag): TreeTransformableInterface =>
-                $transformableMap->tryGet($trunkTag)
-        );
-    }
-
-    /**
-     * @template T
-     *
-     * @param T $trunk
-     *
-     * @return mixed
-     *
-     */
-    public function transformOrDefault(mixed $trunk): mixed
-    {
-        return $this->transform(
-            $trunk,
-            $this->defaultTransformableMap,
-            fn(TreeTransformableTagReadOnlyMap $transformableMap, string $trunkTag): TreeTransformableInterface =>
-                $transformableMap->getOrDefault($trunkTag, $this->defaultTransformable)
-        );
-    }
-
-    /**
-     * @template T
-     *
-     * @param T $trunk
-     * @param TreeTransformableTagReadOnlyMap $transformableMap
-     * @return mixed
-     */
-    public function transformOrDefaultWith(
+    public function transformOrDefault(
         mixed $trunk,
-        TreeTransformableTagReadOnlyMap $transformableMap
+        TreeTransformableTagReadOnlyMap $transformableMap = null,
+        TreeTransformableInterface $transformable = null
     ): mixed
     {
         return $this->transform(
             $trunk,
-            $transformableMap,
+            $transformableMap ?? $this->defaultTransformableMap,
             fn(TreeTransformableTagReadOnlyMap $transformableMap, string $trunkTag): TreeTransformableInterface =>
-                $transformableMap->getOrDefault($trunkTag, $this->defaultTransformable)
-         );
+                $transformableMap->getOrDefault($trunkTag, $transformable ?? $this->defaultTransformable)
+        );
     }
 
     /**
@@ -105,7 +85,11 @@ class TreeTransformer
      * @param Closure $getTransformable
      * @return mixed
      */
-    private function transform(mixed $trunk, TreeTransformableTagReadOnlyMap $transformableMap, Closure $getTransformable): mixed
+    private function transform(
+        mixed $trunk,
+        TreeTransformableTagReadOnlyMap $transformableMap,
+        Closure $getTransformable
+    ): mixed
     {
         $trunkTag = $this->getTag($trunk);
         $trunkTransformable = $getTransformable($transformableMap, $trunkTag);
