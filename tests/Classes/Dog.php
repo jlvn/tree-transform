@@ -4,7 +4,7 @@ namespace Classes;
 
 class Dog implements AnimalInterface
 {
-    public function eat(mixed $food): string
+    public function eat(string $food): string
     {
         return $food;
     }

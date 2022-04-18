@@ -1,6 +1,7 @@
 <?php
 
 use Jlvn\TreeTransform\GenericTreeTransformable;
+use Jlvn\TreeTransform\NotFoundExceptionInterface;
 use Jlvn\TreeTransform\ReadOnlyMapInterface;
 use Classes\Dog;
 use Jlvn\TreeTransform\NotFoundException;
@@ -65,7 +66,10 @@ class TreeTransformerTest extends TestCase
         ];
     }
 
-    /** @test */
+    /**
+     * @test
+     * @throws NotFoundExceptionInterface
+     */
     public function it_will_throw_a_exception_when_the_try_method_is_used(): void
     {
         $this->expectException(NotFoundException::class);
@@ -75,7 +79,8 @@ class TreeTransformerTest extends TestCase
         $treeTransformer->tryTransform(new StdClass);
     }
 
-    /** @test
+    /**
+     * @test
      * @throws NotFoundException
      */
     public function it_will_transform_a_object_with_default_transformable_map(): void
@@ -86,7 +91,7 @@ class TreeTransformerTest extends TestCase
             $this->reflectionParameterTransformable,
         ]);
 
-        $treeTransformer = new TreeTransformer(defaultTransformableMap: $transformableMap);
+        $treeTransformer = new TreeTransformer(null, $transformableMap);
 
         $reflected = new ReflectionClass(Dog::class);
 
@@ -95,7 +100,8 @@ class TreeTransformerTest extends TestCase
         $this->assertEquals($this->expectedTransformationResult, $actual);
     }
 
-    /** @test
+    /**
+     * @test
      * @throws NotFoundException
      */
     public function it_will_transform_a_object_with_provided_transformable_map(): void
@@ -127,7 +133,8 @@ class TreeTransformerTest extends TestCase
         $this->assertEquals($reflected, $actual);
     }
 
-    /** @test
+    /**
+     * @test
      * @throws ReflectionException
      */
     public function it_will_correctly_transform_using_transform_or_default_with(): void

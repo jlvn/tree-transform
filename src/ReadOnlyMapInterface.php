@@ -16,7 +16,7 @@ interface ReadOnlyMapInterface
      *
      * @return T the value.
      */
-    public function tryGet(string $key): mixed;
+    public function tryGet(string $key);
 
     /**
      * Get the value for the key if present else get a default value.
@@ -26,5 +26,5 @@ interface ReadOnlyMapInterface
      *
      * @return T the (default) value.
      */
-    public function getOrDefault(string $key, mixed $default = null): mixed;
+    public function getOrDefault(string $key, $default = null);
 }

@@ -31,7 +31,7 @@ interface TreeTransformableInterface {
      *
      * @return array<TBranch>
      */
-    public function getBranches(mixed $trunk): array;
+    public function getBranches($trunk): array;
 
 
     /**
@@ -42,5 +42,5 @@ interface TreeTransformableInterface {
      *
      * @return TTransformed the transformed object.
      */
-    public function transform(mixed $trunk, ReadOnlyMapInterface $branches): mixed;
+    public function transform($trunk, ReadOnlyMapInterface $branches);
 }

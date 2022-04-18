@@ -3,5 +3,5 @@
 namespace Classes;
 
 interface AnimalInterface {
-    public function eat(mixed $food): mixed;
+    public function eat(string $food): string;
 }

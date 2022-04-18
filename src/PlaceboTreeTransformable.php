@@ -19,7 +19,7 @@ class PlaceboTreeTransformable implements TreeTransformableInterface
     /**
      * @inheritDoc
      */
-    public function getBranches(mixed $trunk): array
+    public function getBranches($trunk): array
     {
         return [];
     }
@@ -27,7 +27,7 @@ class PlaceboTreeTransformable implements TreeTransformableInterface
     /**
      * @inheritDoc
      */
-    public function transform(mixed $trunk, ReadOnlyMapInterface $branches): mixed
+    public function transform($trunk, ReadOnlyMapInterface $branches)
     {
         return $trunk;
     }

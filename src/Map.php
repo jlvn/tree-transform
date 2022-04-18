@@ -24,7 +24,7 @@ class Map implements WriteOnlyMapInterface, ReadOnlyMapInterface
     /**
      * @inheritDoc
      */
-    public function set(string $key, mixed $value): void
+    public function set(string $key, $value): void
     {
         $this->map[$key] = $value;
     }
@@ -32,7 +32,7 @@ class Map implements WriteOnlyMapInterface, ReadOnlyMapInterface
     /**
      * @inheritDoc
      */
-    public function tryGet(string $key): mixed
+    public function tryGet(string $key)
     {
         if (!isset($this->map[$key])) {
             throw new NotFoundException("key ($key) not found");
@@ -43,11 +43,11 @@ class Map implements WriteOnlyMapInterface, ReadOnlyMapInterface
     /**
      * @inheritDoc
      */
-    public function getOrDefault(string $key, mixed $default = null): mixed
+    public function getOrDefault(string $key, $default = null)
     {
         try {
             return $this->tryGet($key);
-        } catch (NotFoundExceptionInterface) {
+        } catch (NotFoundExceptionInterface $exception) {
             return $default;
         }
     }

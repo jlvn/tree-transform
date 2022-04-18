@@ -13,5 +13,5 @@ interface WriteOnlyMapInterface
      * @param T $value A value.
      * @return void
      */
-    public function set(string $key, mixed $value): void;
+    public function set(string $key, $value): void;
 }

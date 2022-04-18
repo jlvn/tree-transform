@@ -6,26 +6,26 @@ use Closure;
 
 class TreeTransformer
 {
-    private readonly TreeTransformableTagReadOnlyMap $defaultTransformableMap;
-    private readonly TreeTransformableInterface $defaultTransformable;
+    private ReadOnlyMapInterface $defaultTransformableMap;
+    private TreeTransformableInterface $defaultTransformable;
 
     /**
-     * @param TreeTransformableInterface $defaultTransformable The default transformable to transform entities with.
+     * @param TreeTransformableInterface|null $defaultTransformable The default transformable to transform entities with.
      *        if null is passed the PlaceboTreeTransformable will be used.
      *        This transformable does not transform the entity.
-     * @param TreeTransformableTagReadOnlyMap $defaultTransformableMap The default transformable map to transform the
+     * @param TreeTransformableTagReadOnlyMap|null $defaultTransformableMap The default transformable map to transform the
      *        the entities in the tree with. If null is passed an empty TreeTransformableTagReadOnlyMap will be used.
      *
      * @see PlaceboTreeTransformable
      * @see TreeTransformableTagReadOnlyMap
      */
     public function __construct(
-        TreeTransformableInterface $defaultTransformable = new PlaceboTreeTransformable(),
-        TreeTransformableTagReadOnlyMap $defaultTransformableMap = new TreeTransformableTagReadOnlyMap([])
+        TreeTransformableInterface $defaultTransformable = null,
+        TreeTransformableTagReadOnlyMap $defaultTransformableMap = null
     )
     {
-        $this->defaultTransformable = $defaultTransformable;
-        $this->defaultTransformableMap = $defaultTransformableMap;
+        $this->defaultTransformable = $defaultTransformable ?? new PlaceboTreeTransformable();
+        $this->defaultTransformableMap = $defaultTransformableMap ?? new TreeTransformableTagReadOnlyMap([]);
     }
 
     /**
@@ -41,12 +41,12 @@ class TreeTransformer
      *
      * @throws NotFoundExceptionInterface When the transformable tag could not be found in the transformable map.
      */
-    public function tryTransform(mixed $trunk, TreeTransformableTagReadOnlyMap $transformableMap = null): mixed
+    public function tryTransform($trunk, TreeTransformableTagReadOnlyMap $transformableMap = null)
     {
         return $this->transform(
             $trunk,
             $transformableMap ?? $this->defaultTransformableMap,
-            fn(TreeTransformableTagReadOnlyMap $transformableMap, string $trunkTag): TreeTransformableInterface =>
+            fn(ReadOnlyMapInterface $transformableMap, string $trunkTag): TreeTransformableInterface =>
             $transformableMap->tryGet($trunkTag)
         );
     }
@@ -66,30 +66,30 @@ class TreeTransformer
      * @return mixed
      */
     public function transformOrDefault(
-        mixed $trunk,
+        $trunk,
         TreeTransformableTagReadOnlyMap $transformableMap = null,
         TreeTransformableInterface $transformable = null
-    ): mixed
+    )
     {
         return $this->transform(
             $trunk,
             $transformableMap ?? $this->defaultTransformableMap,
-            fn(TreeTransformableTagReadOnlyMap $transformableMap, string $trunkTag): TreeTransformableInterface =>
+            fn(ReadOnlyMapInterface $transformableMap, string $trunkTag): TreeTransformableInterface =>
                 $transformableMap->getOrDefault($trunkTag, $transformable ?? $this->defaultTransformable)
         );
     }
 
     /**
      * @param mixed $trunk
-     * @param TreeTransformableTagReadOnlyMap $transformableMap
+     * @param ReadOnlyMapInterface $transformableMap
      * @param Closure $getTransformable
      * @return mixed
      */
     private function transform(
-        mixed $trunk,
-        TreeTransformableTagReadOnlyMap $transformableMap,
+        $trunk,
+        ReadOnlyMapInterface $transformableMap,
         Closure $getTransformable
-    ): mixed
+    )
     {
         $trunkTag = $this->getTag($trunk);
         $trunkTransformable = $getTransformable($transformableMap, $trunkTag);
@@ -114,12 +114,12 @@ class TreeTransformer
      * @param mixed $value
      * @return string
      */
-    private function getTag(mixed $value): string
+    private function getTag($value): string
     {
         $tag = gettype($value);
         if ($tag !== 'object') {
             return $tag;
         }
-        return $value::class;
+        return get_class($value);
     }
 }

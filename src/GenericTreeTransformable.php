@@ -33,7 +33,7 @@ class GenericTreeTransformable implements TreeTransformableInterface
     /**
      * @inheritDoc
      */
-    public function getBranches(mixed $trunk): array
+    public function getBranches($trunk): array
     {
         return call_user_func($this->getBranches, $trunk);
     }
@@ -41,7 +41,7 @@ class GenericTreeTransformable implements TreeTransformableInterface
     /**
      * @inheritDoc
      */
-    public function transform(mixed $trunk, ReadOnlyMapInterface $branches): mixed
+    public function transform($trunk, ReadOnlyMapInterface $branches)
     {
         return call_user_func($this->transform, $trunk, $branches);
     }

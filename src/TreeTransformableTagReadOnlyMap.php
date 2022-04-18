@@ -7,7 +7,7 @@ class TreeTransformableTagReadOnlyMap implements ReadOnlyMapInterface
     /**
      * @var array<string, TreeTransformableInterface>
      */
-    private readonly array $transformables;
+    private array $transformables;
 
     /**
      * @param array $transformables
@@ -32,11 +32,11 @@ class TreeTransformableTagReadOnlyMap implements ReadOnlyMapInterface
     /**
      * @inheritDoc
      */
-    public function getOrDefault(string $key, mixed $default = null): ?TreeTransformableInterface
+    public function getOrDefault(string $key, $default = null): ?TreeTransformableInterface
     {
         try {
             return $this->tryGet($key);
-        } catch (NotFoundExceptionInterface) {
+        } catch (NotFoundExceptionInterface $exception) {
             return $default;
         }
     }
