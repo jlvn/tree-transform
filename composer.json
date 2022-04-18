@@ -1,0 +1,23 @@
+{
+    "name": "jlvn/tree-transform",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Jlvn\\TreeTransform\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Classes\\": "tests/Classes"
+        }
+    },
+    "authors": [
+        {
+            "name": "jlvn"
+        }
+    ],
+    "require-dev": {
+        "vimeo/psalm": "^4.22",
+        "phpunit/phpunit": "^9.5"
+    }
+}
