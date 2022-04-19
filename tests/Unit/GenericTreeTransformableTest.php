@@ -1,10 +1,13 @@
 <?php
 
-use Classes\Dog;
+namespace Tests\Unit;
+
 use Jlvn\TreeTransform\GenericTreeTransformable;
 use Jlvn\TreeTransform\Map;
 use Jlvn\TreeTransform\TreeTransformableInterface;
 use PHPUnit\Framework\TestCase;
+use StdClass;
+use Tests\Helpers\Dog;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor

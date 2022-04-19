@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Unit;
+
 use Jlvn\TreeTransform\Map;
 use Jlvn\TreeTransform\NotFoundException;
 use Jlvn\TreeTransform\NotFoundExceptionInterface;

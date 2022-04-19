@@ -1,9 +1,12 @@
 <?php
 
+namespace Tests\Unit;
+
 use Jlvn\TreeTransform\Map;
 use Jlvn\TreeTransform\PlaceboTreeTransformable;
 use Jlvn\TreeTransform\TreeTransformableInterface;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor

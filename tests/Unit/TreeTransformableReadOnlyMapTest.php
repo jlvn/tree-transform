@@ -1,11 +1,14 @@
 <?php
 
-use Classes\Dog;
+namespace Tests\Unit;
+
 use Jlvn\TreeTransform\GenericTreeTransformable;
 use Jlvn\TreeTransform\Map;
 use Jlvn\TreeTransform\NotFoundException;
 use Jlvn\TreeTransform\TreeTransformableTagReadOnlyMap;
 use PHPUnit\Framework\TestCase;
+use Tests\Helpers\Dog;
+use TypeError;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor

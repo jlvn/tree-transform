@@ -10,7 +10,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Classes\\": "tests/Classes"
+            "Tests\\": "tests"
         }
     },
     "authors": [

@@ -1,6 +1,6 @@
 <?php
 
-namespace Classes;
+namespace Tests\Helpers;
 
 interface AnimalInterface {
     public function eat(string $food): string;

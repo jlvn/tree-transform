@@ -1,14 +1,21 @@
 <?php
 
+namespace Tests\Unit;
+
 use Jlvn\TreeTransform\GenericTreeTransformable;
+use Jlvn\TreeTransform\NotFoundException;
 use Jlvn\TreeTransform\NotFoundExceptionInterface;
 use Jlvn\TreeTransform\ReadOnlyMapInterface;
-use Classes\Dog;
-use Jlvn\TreeTransform\NotFoundException;
 use Jlvn\TreeTransform\TreeTransformableInterface;
 use Jlvn\TreeTransform\TreeTransformableTagReadOnlyMap;
 use Jlvn\TreeTransform\TreeTransformer;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
+use ReflectionParameter;
+use stdClass;
+use Tests\Helpers\Dog;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -52,7 +59,7 @@ class TreeTransformerTest extends TestCase
         );
 
         $this->expectedTransformationResult = [
-            'name' => 'Classes\Dog',
+            'name' => Dog::class,
             'methods' => [
                 [
                     'name' => 'eat',
@@ -151,7 +158,7 @@ class TreeTransformerTest extends TestCase
         $actual = $treeTransformer->transformOrDefault($reflected, $transformableMap);
 
         $expected =  [
-            'name' => 'Classes\Dog',
+            'name' => Dog::class,
             'methods' => [
                 [
                     'name' => 'eat',
