@@ -15,7 +15,7 @@ use ReflectionException;
 use ReflectionMethod;
 use ReflectionParameter;
 use stdClass;
-use Tests\Helpers\Dog;
+use Tests\Helpers\Classes\Dog;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor

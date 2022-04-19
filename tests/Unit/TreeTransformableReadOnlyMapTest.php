@@ -7,7 +7,7 @@ use Jlvn\TreeTransform\Map;
 use Jlvn\TreeTransform\NotFoundException;
 use Jlvn\TreeTransform\TreeTransformableTagReadOnlyMap;
 use PHPUnit\Framework\TestCase;
-use Tests\Helpers\Dog;
+use Tests\Helpers\Classes\Dog;
 use TypeError;
 
 /**

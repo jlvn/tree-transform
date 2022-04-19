@@ -7,7 +7,7 @@ use Jlvn\TreeTransform\Map;
 use Jlvn\TreeTransform\TreeTransformableInterface;
 use PHPUnit\Framework\TestCase;
 use StdClass;
-use Tests\Helpers\Dog;
+use Tests\Helpers\Classes\Dog;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
