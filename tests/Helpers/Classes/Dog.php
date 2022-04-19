@@ -1,6 +1,6 @@
 <?php
 
-namespace Classes;
+namespace Tests\Helpers\Classes;
 
 class Dog implements AnimalInterface
 {
