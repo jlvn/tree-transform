@@ -53,6 +53,7 @@ class CustomTreeTransformable implements TreeTransformableInterface {
 
 ### Using the TreeTransformer
 Now that we have defined our `TreeTransformable`s we can use them in the TreeTransformer.
+The TreeTransformer uses a simple depth first algorithm to traverse the tree.
 Tou can interact with the TreeTransformer in a multitude of ways.
 
 ```php
