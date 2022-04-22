@@ -1,6 +1,6 @@
 {
     "name": "jlvn/tree-transform",
-    "description": "A library to perform transformations on tree data structures.",
+    "description": "A library to perform transformations on tree-like structures.",
     "license": "MIT",
     "type": "library",
     "autoload": {
